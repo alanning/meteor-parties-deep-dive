@@ -1,6 +1,7 @@
 // All Tomorrow's Parties -- client
 
 Meteor.subscribe("parties");
+Meteor.subscribe("directory");
 
 ///////////////////////////////////////////////////////////////////////////////
 // Party details sidebar
@@ -8,6 +9,72 @@ Meteor.subscribe("parties");
 Template.details.party = function () {
   return Parties.findOne(Session.get("selected"));
 };
+
+Template.details.maybeChosen = function (what) {
+  var myRsvp = _.find(this.rsvps, function (r) {
+    return r.user === Meteor.userId();
+  }) || {};
+
+  return what == myRsvp.rsvp ? "chosen btn-inverse" : "";
+};
+
+Template.details.events({
+  'click .rsvp_yes': function () {
+    Meteor.call("rsvp", Session.get("selected"), "yes");
+    return false;
+  },
+  'click .rsvp_maybe': function () {
+    Meteor.call("rsvp", Session.get("selected"), "maybe");
+    return false;
+  },
+  'click .rsvp_no': function () {
+    Meteor.call("rsvp", Session.get("selected"), "no");
+    return false;
+  },
+  'click .invite': function () {
+    openInviteDialog();
+    return false;
+  },
+  'click .remove': function () {
+    Parties.remove(this._id);
+    return false;
+  }
+});
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Party attendance widget
+
+Template.attendance.rsvpName = function () {
+  var user = Meteor.users.findOne(this.user);
+  return displayName(user);
+};
+
+Template.attendance.outstandingInvitations = function () {
+  var party = Parties.findOne(this._id);
+  return Meteor.users.find({$and: [
+    {_id: {$in: party.invited}}, // they're invited
+    {_id: {$nin: _.pluck(party.rsvps, 'user')}} // but haven't RSVP'd
+  ]});
+};
+
+Template.attendance.invitationName = function () {
+  return displayName(this);
+};
+
+Template.attendance.rsvpIs = function (what) {
+  return this.rsvp === what;
+};
+
+Template.attendance.nobody = function () {
+  return ! this.public && (this.rsvps.length + this.invited.length === 0);
+};
+
+Template.attendance.canInvite = function () {
+  return ! this.public && this.owner === Meteor.userId();
+};
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Map display
@@ -27,7 +94,7 @@ Template.map.rendered = function () {
       var selected = Session.get('selected');
       var selectedParty = selected && Parties.findOne(selected);
       var radius = function (party) {
-        return 15;
+        return 10 + Math.sqrt(attending(party)) * 10;
       };
 
       // Draw a circle for each party
@@ -37,7 +104,7 @@ Template.map.rendered = function () {
         .attr("cy", function (party) { return party.y * 500; })
         .attr("r", radius)
         .attr("class", function (party) {
-          return "public"
+          return party.public ? "public" : "private";
         })
         .style('opacity', function (party) {
           return selected === party._id ? 1 : 0.6;
@@ -54,6 +121,7 @@ Template.map.rendered = function () {
       // Label each with the current attendance count
       var updateLabels = function (group) {
         group.attr("id", function (party) { return party._id; })
+        .text(function (party) {return attending(party) || '';})
         .attr("x", function (party) { return party.x * 500; })
         .attr("y", function (party) { return party.y * 500 + radius(party)/2 })
         .style('font-size', function (party) {

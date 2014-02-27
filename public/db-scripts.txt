@@ -1,5 +1,6 @@
 # Data input for Parties Deep Dive
 
+######################################################################
 # Start
 
 Parties.insert({title: "Underground warehouse danceoff", description: "Dance until your feet fall off! Then borrow your neighbor's feet!", x:.724, y: .614})
@@ -16,6 +17,7 @@ Parties.insert({title: "Savage lounging", description: "Leisure suit required. A
 Parties.update(Session.get("selected"), {$set: {title: "All Dubstep All The Time"}})
 
 
+######################################################################
 # Step1-accounts
 
 ## Users
@@ -50,4 +52,23 @@ _.each(Parties.find({owner: Meteor.userId()}).fetch(), function (party) {
 })
 
 
+######################################################################
 # Step2 - RSVP (4:54)
+
+
+## Users
+(use same from Step1)
+
+## Geoff's Parties
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Underground warehouse danceoff", description: "Dance until your feet fall off! Then borrow your neighbor's feet!", x:.724, y: .614, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Chilling in the park", description: "Sometimes it's nice to just hang out and watch the moon rise. It doesn't have to be more complicated than that.", x:.502, y: .240, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Industrial night", description: "Genuine industrial music, played in genuine industrial-zoned buildings, with what may be last breeding pair of cyberpunks surving in the wild today", x:.120, y: .915, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Dubstep-Free Zone", description: "Can we please just for an evening not listen to dubstep. Try it just this once.", x:.506, y: .500, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Postmodern Postparty Happening", description: "This salon will examine the existential underpinnings of the entire paradigm of celebratory participation. 4 humanities credits, offered alternate semesters.", x:.564, y: .770, rsvps: [], invited: [], public: true})
+
+## Matt's Parties
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Make Mash Ship Shop", description: "MIG or TIG, we've got your welding. Hot metal on metal action.", x:.690, y: .530, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "The Party That's Already Over", description: "What, you think you're some kind of hipster? I was a hipster before it was cool.", x:.474, y: .346, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Trainspotting", description: "First person to see a train, wins!", x:.944, y: .939, rsvps: [], invited: [], public: true})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Savage lounging", description: "Leisure suit required. And only the fiercest manners.", x:.597, y: .563, rsvps: [], invited: [], public: true})
+
