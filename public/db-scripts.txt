@@ -1,4 +1,7 @@
-#Start
+## Start
+
+# Data input
+
 Parties.insert({title: "Underground warehouse danceoff", description: "Dance until your feet fall off! Then borrow your neighbor's feet!", x:.724, y: .614})
 Parties.insert({title: "Chilling in the park", description: "Sometimes it's nice to just hang out and watch the moon rise. It doesn't have to be more complicated than that.", x:.502, y: .240})
 Parties.insert({title: "Industrial night", description: "Genuine industrial music, played in genuine industrial-zoned buildings, with what may be last breeding pair of cyberpunks surving in the wild today", x:.120, y: .915})
@@ -8,4 +11,7 @@ Parties.insert({title: "Make Mash Ship Shop", description: "MIG or TIG, we've go
 Parties.insert({title: "The Party That's Already Over", description: "What, you think you're some kind of hipster? I was a hipster before it was cool.", x:.474, y: .346})
 Parties.insert({title: "Trainspotting", description: "First person to see a train, wins!", x:.944, y: .939})
 Parties.insert({title: "Savage lounging", description: "Leisure suit required. And only the fiercest manners.", x:.597, y: .563})
+
+# Update title
+Parties.update(Session.get("selected"), {$set: {title: "All Dubstep All The Time"}})
 
