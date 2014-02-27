@@ -72,3 +72,15 @@ Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "The Party That's Already Ove
 Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Trainspotting", description: "First person to see a train, wins!", x:.944, y: .939, rsvps: [], invited: [], public: true})
 Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Savage lounging", description: "Leisure suit required. And only the fiercest manners.", x:.597, y: .563, rsvps: [], invited: [], public: true})
 
+
+
+
+######################################################################
+# Step3 - Privacy (6:00)
+
+## Check privacy
+_.pluck(Parties.find({}).fetch(), 'title')
+
+## Mark party as not-public
+Parties.update(Session.get("selected"), {$set: {public: false}})
+

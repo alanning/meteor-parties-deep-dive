@@ -23,7 +23,7 @@ Parties.allow({
     if (userId !== party.owner)
       return false; // not the owner
 
-    var allowed = ["title", "description", "x", "y"];
+    var allowed = ["title", "description", "x", "y", "public"];
     if (_.difference(fields, allowed).length)
       return false; // tried to write to forbidden field
 

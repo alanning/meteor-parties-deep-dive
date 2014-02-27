@@ -10,6 +10,5 @@ bootstrap
 email
 audit-argument-checks
 insecure
-autopublish
 accounts-password
 accounts-ui
