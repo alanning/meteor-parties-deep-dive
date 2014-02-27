@@ -15,6 +15,7 @@
 */
 Parties = new Meteor.Collection("parties");
 
+/*
 Parties.allow({
   insert: function (userId, party) {
     return false; // no cowboy inserts -- use createParty method
@@ -181,3 +182,4 @@ var contactEmail = function (user) {
     return user.services.facebook.email;
   return null;
 };
+*/

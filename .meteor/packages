@@ -5,11 +5,9 @@
 
 standard-app-packages
 preserve-inputs
-accounts-ui
-accounts-password
 d3
 bootstrap
 email
-accounts-facebook
-accounts-twitter
 audit-argument-checks
+insecure
+autopublish
