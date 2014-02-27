@@ -1,6 +1,6 @@
-## Start
+# Data input for Parties Deep Dive
 
-# Data input
+# Start
 
 Parties.insert({title: "Underground warehouse danceoff", description: "Dance until your feet fall off! Then borrow your neighbor's feet!", x:.724, y: .614})
 Parties.insert({title: "Chilling in the park", description: "Sometimes it's nice to just hang out and watch the moon rise. It doesn't have to be more complicated than that.", x:.502, y: .240})
@@ -12,6 +12,42 @@ Parties.insert({title: "The Party That's Already Over", description: "What, you 
 Parties.insert({title: "Trainspotting", description: "First person to see a train, wins!", x:.944, y: .939})
 Parties.insert({title: "Savage lounging", description: "Leisure suit required. And only the fiercest manners.", x:.597, y: .563})
 
-# Update title
+## Update title
 Parties.update(Session.get("selected"), {$set: {title: "All Dubstep All The Time"}})
 
+
+# Step1-accounts
+
+## Users
+## From terminal
+$ cd meteor-parties-deep-dive
+$ meteor mongo
+db.users.insert({ "_id" : "9TD2f2M2phSxuQX2E", "createdAt" : ISODate("2014-02-27T18:59:10.519Z"), "services" : { "password" : { "srp" : { "identity" : "QeXAQydPD6GcKNj77", "salt" : "KLqRykuKPS7HELC5x", "verifier" : "fd71ea184dc66b809967fde54c9d504b7ecd0d41d94554f28b432a250b23f1f1ced77fabca12f54fb30e12ab9c34384812ce359f0bbe962c6f0cae3bf8d41d48350557c028d6a405e6940d5c443bf8b67d940c90791e40176797ac917e5c6eb5c90db159dfa4f832fd24b60f85d12d98672fd8c3940ff90eb42f2ccfe6851b3" } }, "resume" : { "loginTokens" : [ 	{ 	"when" : ISODate("2014-02-27T18:59:10.519Z"), 	"hashedToken" : "gYiTnYkVrKplGPx/SuP1GeMlrU8uxMBe9eyKS9fvEaE=" } ] } }, "emails" : [  {  "address" : "matt@example.com",  "verified" : false } ] })
+db.users.insert({ "_id" : "dDa39BsPLgs7LZifS", "createdAt" : ISODate("2014-02-27T18:59:27.856Z"), "services" : { "password" : { "srp" : { "identity" : "peTaFWMKCeXMQu9X2", "salt" : "BpJiWiRPfkCNyCcgt", "verifier" : "63f45499714dffae01dd070030650cc0569d8e4aa475eab677375ac227faa6ae5c15e52af6d1a23df79df2190090c42f6771f2e2d5d68e7c5f59412cbdcd8455bb2dbccc9b3ec336b9987a7c60bc61c9707ad5015b2777c9163775483e5558edbafac53fcbc907415e41630b34401ef247ed5033bf44e849e78a2db095296894" } }, "resume" : { "loginTokens" : [ 	{ 	"when" : ISODate("2014-02-27T18:59:27.857Z"), 	"hashedToken" : "CE4NsbQLkrJNIC7JGPX6uudNcI9VBz1EtjgIfI/9vS0=" } ] } }, "emails" : [  {  "address" : "geoff@example.com",  "verified" : false } ] })
+
+## Geoff's Parties
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Underground warehouse danceoff", description: "Dance until your feet fall off! Then borrow your neighbor's feet!", x:.724, y: .614})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Chilling in the park", description: "Sometimes it's nice to just hang out and watch the moon rise. It doesn't have to be more complicated than that.", x:.502, y: .240})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Industrial night", description: "Genuine industrial music, played in genuine industrial-zoned buildings, with what may be last breeding pair of cyberpunks surving in the wild today", x:.120, y: .915})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Dubstep-Free Zone", description: "Can we please just for an evening not listen to dubstep. Try it just this once.", x:.506, y: .500})
+Parties.insert({owner: "dDa39BsPLgs7LZifS", title: "Postmodern Postparty Happening", description: "This salon will examine the existential underpinnings of the entire paradigm of celebratory participation. 4 humanities credits, offered alternate semesters.", x:.564, y: .770})
+
+## Matt's Parties
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Make Mash Ship Shop", description: "MIG or TIG, we've got your welding. Hot metal on metal action.", x:.690, y: .530})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "The Party That's Already Over", description: "What, you think you're some kind of hipster? I was a hipster before it was cool.", x:.474, y: .346})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Trainspotting", description: "First person to see a train, wins!", x:.944, y: .939})
+Parties.insert({owner: "9TD2f2M2phSxuQX2E", title: "Savage lounging", description: "Leisure suit required. And only the fiercest manners.", x:.597, y: .563})
+
+## Update attempts
+Parties.update(Session.get("selected"), {$set: {title: "Brutal Lounging"}})
+Parties.update(Session.get("selected"), {$set: {title: "Extreme Lounging"}})
+Parties.update(Session.get("selected"), {$inc: {x: .1}})
+Parties.update(Session.get("selected"), {$inc: {x: -.1}})
+Parties.update({}, {$inc: {x: -.1}}, {multi: true})
+
+_.each(Parties.find({owner: Meteor.userId()}).fetch(), function (party) {
+  Parties.update({_id: party._id}, {$inc: {x: -.1}})
+})
+
+
+# Step2 - RSVP (4:54)
